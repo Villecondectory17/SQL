@@ -1,0 +1,102 @@
+SQL-Tietokantojen vastaukset tehtäviin
+
+1. Ensimmäisen tehtävän vastaus oli: SELECT * FROM Kurssisuoritus WHERE opiskelija=999999
+
+2.Toisen tehtävän vastaus oli: SELECT * FROM Opiskelija WHERE pääaine LIKE '%tiede%'
+
+3.Kolmannen tehtävän vastaus oli: SELECT nimi, päivämäärä, arvosana FROM Kurssi, Kurssisuoritus WHERE Kurssi.kurssitunnus = Kurssisuoritus.kurssi
+
+4.Neljännen tehtävän vastaus oli: SELECT DISTINCT nimi, päivämäärä, arvosana FROM Kurssisuoritus, Opiskelija WHERE Opiskelija.opiskelijanumero=Kurssisuoritus.opiskelija
+
+5.Viidennen tehtävän vastaus oli: SELECT DISTINCT nimi, päivämäärä, arvosana FROM Kurssisuoritus, Opiskelija WHERE Opiskelija.opiskelijanumero=Kurssisuoritus.opiskelija
+
+6.Kuudennen tehtävän vastaus oli: SELECT Kurssi.nimi AS Kurssi, Tehtävä.nimi AS Tehtävä FROM Kurssitehtävä, Kurssi, Tehtävä WHERE Kurssi.kurssitunnus=Kurssitehtävä.kurssi AND Kurssitehtävä.tehtävä=Tehtävä.tunnus
+
+7.Seitsemännen tehtävän vastaus oli: SELECT Kurssi.nimi, Tehtävä.nimi FROM Opiskelija, Tehtävä, Kurssitehtävä, Tehtäväsuoritus WHERE Opiskelija.opiskelijanumero=Tehtäväsuoritus.opiskelija AND Tehtäväsuoritus.tehtävä=Kurssitehtävä.tunnus AND Tehtävä.tunnus=Kurssitehtävä.tehtävä AND Opiskelija.nimi = 'Anna'
+
+8.Tehtävän vastaus oli:   SELECT Kurssi.nimi AS Kurssi, Tehtävä.nimi AS tehtävä
+                                       FROM Kurssi, Kurssitehtävä, Tehtävä, Tehtäväsuoritus, Opiskelija
+                                       WHERE Kurssi.kurssitunnus = Kurssitehtävä.kurssi
+                                       AND Tehtävä.tunnus = Kurssitehtävä.tehtävä
+                                       AND Tehtäväsuoritus.tehtävä = Kurssitehtävä.tunnus
+                                       AND Tehtäväsuoritus.opiskelija = Opiskelija.opiskelijanumero
+                                       AND Opiskelija.nimi = 'Anna'
+
+9.Tehtävän vastaus oli:   SELECT Tehtävä.nimi AS Tehtävä
+                                       FROM Kurssi, Kurssitehtävä, Tehtävä
+                                       WHERE Kurssi.nimi = 'Tietokantojen perusteet'
+                                       AND Kurssi.kurssitunnus = Kurssitehtävä.kurssi
+                                       AND Tehtävä.tunnus = Kurssitehtävä.tehtävä;
+10.Tehtävän vastaus oli:
+                                       SELECT Opiskelija.nimi AS Opiskelija, Tehtävä.nimi AS Tehtävä
+                                       FROM Kurssi, Kurssitehtävä, Tehtävä, Tehtäväsuoritus, Opiskelija
+                                       WHERE Kurssi.nimi = 'Tietokantojen perusteet'
+                                       AND Kurssi.kurssitunnus = Kurssitehtävä.kurssi
+                                       AND Tehtävä.tunnus = Kurssitehtävä.tehtävä
+                                       AND Tehtäväsuoritus.tehtävä = Kurssitehtävä.tunnus
+                                       AND Tehtäväsuoritus.opiskelija = Opiskelija.opiskelijanumero;
+11.Tehtävän vastaus oli:
+
+SELECT nimi FROM Kurssi k
+WHERE k.kurssitunnus
+NOT IN (SELECT kurssi From kurssitehtävä)
+
+12.Tehtävän vastaus oli: SELECT nimi FROM Kurssi k
+                                       LEFT JOIN Kurssitehtävä t
+                                       ON k.kurssitunnus = t.kurssi
+                                       WHERE t.tunnus IS NULL
+
+13. Tehtävän vastaus oli: SELECT k.nimi AS kurssi, COUNT (ks.kurssi) as lukumäärä FROM Kurssi k LEFT JOIN Kurssisuoritus ks ON k.kurssitunnus = ks.kurssi GROUP BY k.nimi
+
+14. Tehtävän vastaus oli: CREATE TABLE Kurssi (kurssitunnus, nimi, kuvaus)
+
+15.Tehtävän vastaus oli: INSERT INTO Kurssi (kurssitunnus, nimi, kuvaus)
+                                       VALUES (12345, 'SQL-kielen perusteet', ' " SELECT Hei maailma;"')
+16. Tehtävän vastaus oli: PRAGMA TABLE INFO Kurssi (8, Nimi[4], Nimi[2])
+
+17. Tehtävän vastaus oli: PRAGMA TABLE_INFO (8, 'a','b')
+
+
+
+
+
+
+
+
+20. Tehtävän vastaus oli: CREATE table KURSSI2 (kurssitunnus integer, nimi varchar(200),kuvaus varchar (200))
+
+PRAGMA TABLE_INFO(Kurssi2)
+
+21. Tehtävän vastaus oli: CREATE TABLE Kurssi (kurssitunnus integer, nimi varchar(200), kuvaus varchar(200))
+
+PRAGMA TABLE_INFO(Kurssi)
+
+22. Tehtävän vastaus oli: SELECT * FROM Opiskelija 
+
+INSERT INTO Opiskelija (opiskelijanumero, nimi)
+    VALUES (20, 'Kalle')
+
+23. Tehtävän vastaus oli: CREATE TABLE Kurssi
+(
+    kurssitunnus integer,
+    nimi varchar(200),
+    kuvaus varchar(200),
+    PRIMARY KEY (kurssitunnus)
+)
+
+INSERT INTO Kurssi (kurssitunnus, nimi) VALUES (42, 'Meaning of Life')
+24. Tehtävän vastaus oli: PRAGMA foreign_keys = ON;
+
+CREATE TABLE Tehtävä 
+(
+ tunnus integer PRIMARY KEY
+ nimi varchar(200),
+ kuvaus varchar(3000)
+);
+
+CREATE TABLE Kurssitehtävä
+(
+  tunnus integer PRIMARY KEY
+  FOREIGN KEY(Tehtävä) REFERENCES Tehtävä(tunnus),
+  FOREIGN KEY(Kurssi) REFERENCES Kurssi(kurssitunnus)
+);
